@@ -1,35 +1,85 @@
 package com.pluralsight;
 
-public class Topping extends Sandwich {
+import java.util.Arrays;
+import java.util.List;
+
+public class Topping {
     private String name;
     private boolean isExtra;
 
-    // Meats pricing by sandwich size
+    // Define topping categories
+    private static final List<String> MEATS = Arrays.asList("steak", "ham", "salami", "roast beef", "chicken", "bacon");
+    private static final List<String> CHEESES = Arrays.asList("american", "provolone", "cheddar", "swiss");
+    private static final List<String> REGULAR_TOPPINGS = Arrays.asList("lettuce", "peppers", "onions", "tomatoes", "jalapeños", "cucumbers", "pickles", "guacamole", "mushrooms");
+    private static final List<String> SAUCES = Arrays.asList("mayo", "mustard", "ketchup", "ranch", "bbq", "jerk", "vinaigrette");
+
     public Topping(String name, boolean isExtra) {
-        super("none", 0, false);
-        this.name = name;
+        this.name = name.toLowerCase();
         this.isExtra = isExtra;
     }
 
-    public double getPrice(int sandwichSize) {
+    public double getPrice(String sandwichSize) {
         double price = 0.0;
-        // Only meats cost extra
-        switch (name.toLowerCase()) {
-            case "steak", "ham", "salami", "roast beef", "chicken", "bacon" -> {
-                if (sandwichSize == 4) price = 1.00;
-                else if (sandwichSize == 8) price = 2.00;
-                else if (sandwichSize == 12) price = 3.00;
+
+        switch (sandwichSize.toLowerCase()) {
+            case "roll" -> {
+                if (MEATS.contains(name)) price = 1.00;
+                else if (CHEESES.contains(name)) price = 0.75;
+            }
+            case "hero" -> {
+                if (MEATS.contains(name)) price = 2.00;
+                else if (CHEESES.contains(name)) price = 1.50;
+            }
+            case "superhero" -> {
+                if (MEATS.contains(name)) price = 3.00;
+                else if (CHEESES.contains(name)) price = 2.25;
             }
         }
 
-        // Extra toppings cost 50% more
-        if (isExtra) price *= 1.5;
+        // Extra cost for extra meat or extra cheese
+        if (isExtra) {
+            if (MEATS.contains(name)) {
+                switch (sandwichSize.toLowerCase()) {
+                    case "roll" -> price += 0.50;
+                    case "hero" -> price += 1.00;
+                    case "superhero" -> price += 1.50;
+                }
+            } else if (CHEESES.contains(name)) {
+                switch (sandwichSize.toLowerCase()) {
+                    case "roll" -> price += 0.30;
+                    case "hero" -> price += 0.60;
+                    case "superhero" -> price += 0.90;
+                }
+            }
+        }
+
+        // Regular toppings and sauces are free
         return price;
     }
 
-    public String toString(int sandwichSize) {
+    public String toString(String sandwichSize) {
         double price = getPrice(sandwichSize);
-        String extraText = isExtra ? " (extra)" : "";
-        return String.format("%s%s - $%.2f", name, extraText, price);
+        String extraText;
+
+        if (isExtra) {
+            extraText = " (extra)";
+        } else {
+            extraText = "";
+        }
+
+        return String.format("%s%s - $%.2f", capitalize(name), extraText, price);
+    }
+
+    private String capitalize(String str) {
+        if (str == null || str.isEmpty()) return str;
+        return str.substring(0,1).toUpperCase() + str.substring(1);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isExtra() {
+        return isExtra;
     }
 }

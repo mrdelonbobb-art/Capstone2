@@ -1,11 +1,10 @@
 package com.pluralsight;
 
-public class Fries extends Sandwich {
-    private String size;
+public class Fries {
+    private String size; // small, medium, large
     private double price;
 
     public Fries(String size) {
-        super("none", 0, false);
         this.size = size.toLowerCase();
         setPrice();
     }
@@ -15,7 +14,7 @@ public class Fries extends Sandwich {
             case "small" -> price = 2.00;
             case "medium" -> price = 3.00;
             case "large" -> price = 4.00;
-            default -> price = 0.0;
+            default -> price = 0.0; // unknown size
         }
     }
 
@@ -23,7 +22,16 @@ public class Fries extends Sandwich {
         return price;
     }
 
+    public String getSize() {
+        return size;
+    }
+
     public String getSummary() {
-        return String.format("Fries (%s) - $%.2f\n", size, price);
+        return String.format("Fries (%s) - $%.2f", size, price);
+    }
+
+    @Override
+    public String toString() {
+        return getSummary();
     }
 }
