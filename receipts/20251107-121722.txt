@@ -1,0 +1,10 @@
+
+--- ORDER SUMMARY ---
+Sandwich (4") on white bread [Toasted]
+Toppings:
+  Sandwich Price: $5.50
+
+Drink (large) - $2.50
+Fries (large) - $4.00
+----------------------
+TOTAL: $12.00

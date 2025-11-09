@@ -3,13 +3,12 @@ package com.pluralsight;
 public class TheApp {
     public static void main(String[] args) {
         UserInterface ui = new UserInterface();
+        receiptWriter writer = new receiptWriter("receipts/receipt.csv");
 
         System.out.println("====================================");
         System.out.println("  YUUUUUR! Welcome to The Deli  ");
         System.out.println("====================================");
 
-        // Create a receipt writer instance once, pointing to CSV file
-        receiptWriter writer = new receiptWriter("receipts/receipt.csv");
 
         boolean running = true;
 

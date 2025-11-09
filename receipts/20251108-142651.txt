@@ -1,0 +1,14 @@
+
+--- ORDER SUMMARY ---
+Sandwich (roll) on wrap bread [Toasted]
+Toppings:
+  - Chicken - $1.00
+  - Swiss - $0.75
+  - Cucumbers - $0.00
+  - Peppers - $0.00
+  - Jerk - $0.00
+  - Bbq - $0.00
+  Sandwich Price: $7.25
+
+Drink (small) - $1.50Fries (small) - $2.00----------------------
+TOTAL: $10.75

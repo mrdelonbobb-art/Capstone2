@@ -1,0 +1,10 @@
+
+--- ORDER SUMMARY ---
+Sandwich (roll) on rye bread [Toasted]
+Toppings:
+  - Meat - $0.00
+  - Chiclken - $0.00
+  Sandwich Price: $5.50
+
+----------------------
+TOTAL: $5.50

@@ -1,0 +1,3 @@
+OrderID,Date,Item,Price
+com.pluralsight.Order@7eda2dbb,2025-11-09 14:15:15,Fries - large,4.00
+com.pluralsight.Order@7eda2dbb,2025-11-09 14:15:15,TOTAL,4.00

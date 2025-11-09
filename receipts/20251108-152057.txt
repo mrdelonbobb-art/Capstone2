@@ -1,0 +1,13 @@
+
+--- ORDER SUMMARY ---
+Sandwich (hero) on wrap bread [Toasted]
+Toppings:
+  - Chicken - $2.00
+  - Swiss - $1.50
+  - Peppers - $0.00
+  - Lettuce - $0.00
+  - Mayo - $0.00
+  Sandwich Price: $10.50
+
+----------------------
+TOTAL: $10.50
