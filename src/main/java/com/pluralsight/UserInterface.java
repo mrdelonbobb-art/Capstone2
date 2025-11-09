@@ -42,9 +42,9 @@ public class UserInterface {
         if (scanner.nextLine().equalsIgnoreCase("yes")) {
             while (true) {
                 System.out.println("Available meats: steak, ham, salami, roast beef, chicken, bacon");
-                System.out.print("Type meat name or 'done' to finish: ");
+                System.out.print("Type meat name or 'no' to finish: ");
                 String meat = scanner.nextLine().trim().toLowerCase();
-                if (meat.equals("done")) break;
+                if (meat.equals("no")) break;
 
                 System.out.print("Extra meat? (yes/no): ");
                 boolean extra = scanner.nextLine().equalsIgnoreCase("yes");
@@ -58,9 +58,9 @@ public class UserInterface {
         if (scanner.nextLine().equalsIgnoreCase("yes")) {
             while (true) {
                 System.out.println("Available cheeses: american, provolone, cheddar, swiss");
-                System.out.print("Type cheese name or 'done' to finish: ");
+                System.out.print("Type cheese name or 'no' to finish: ");
                 String cheese = scanner.nextLine().trim().toLowerCase();
-                if (cheese.equals("done")) break;
+                if (cheese.equals("no")) break;
 
                 System.out.print("Extra cheese? (yes/no): ");
                 boolean extra = scanner.nextLine().equalsIgnoreCase("yes");
@@ -74,16 +74,16 @@ public class UserInterface {
         while (true) {
             System.out.print("Topping: ");
             String topping = scanner.nextLine().trim().toLowerCase();
-            if (topping.equals("done")) break;
+            if (topping.equals("no")) break;
             sandwich.addTopping(new Topping(topping, false));
         }
 
         // SAUCES
-        System.out.println("\nAdd sauces (mayo, mustard, ketchup, ranch, bbq, jerk, vinaigrette). Type 'done' to finish.");
+        System.out.println("\nAdd sauces (mayo, mustard, ketchup, ranch, bbq, jerk, vinaigrette). Type 'no' to finish.");
         while (true) {
             System.out.print("Sauce: ");
             String sauce = scanner.nextLine().trim().toLowerCase();
-            if (sauce.equals("done")) break;
+            if (sauce.equals("no")) break;
             sandwich.addTopping(new Topping(sauce, false));
         }
 
