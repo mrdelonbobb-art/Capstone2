@@ -20,7 +20,7 @@ public class TheApp {
 
             // Start a new order
             Order order = new Order();
-            boolean ordering = true;
+            boolean ordering = true; // creates loop
 
             while (ordering) {
                 int choice = ui.showOrderMenu();
@@ -52,7 +52,7 @@ public class TheApp {
 
                         // Print order summary
                         System.out.println(order.getSummary());
-                        System.out.printf("TOTAL DUE: $%.2f%n", order.getTotal());
+                        System.out.printf("TOTAL DUE: $%.2f%n", order.getTotal()); //$%.2f%n  2 decimal places
                         System.out.println("====================================");
 
                         // Save receipt

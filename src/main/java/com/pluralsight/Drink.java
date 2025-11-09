@@ -9,6 +9,7 @@ public class Drink {
         setPrice();
     }
 
+
     private void setPrice() {
         switch (size) {
             case "small" -> price = 1.50;

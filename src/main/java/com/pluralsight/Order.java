@@ -44,4 +44,7 @@ public class Order {
         sb.append(String.format("TOTAL: $%.2f%n", getTotal()));
         return sb.toString();
     }
+    public List<Sandwich> getSandwiches() { return sandwiches; }
+    public List<Drink> getDrinks() { return drinks; }
+    public List<Fries> getFries() { return fries; }
 }
