@@ -4,6 +4,8 @@ public class TheApp {
     public static void main(String[] args) {
         UserInterface ui = new UserInterface();
         receiptWriter writer = new receiptWriter("receipts/receipt.csv");
+        Order order = null;
+        writer.saveOrder(order);
 
         System.out.println("====================================");
         System.out.println("  YUUUUUR! Welcome to The Deli  ");
@@ -21,7 +23,7 @@ public class TheApp {
             }
 
             // Start a new order
-            Order order = new Order();
+            order = new Order();
             boolean ordering = true;
 
             while (ordering) {

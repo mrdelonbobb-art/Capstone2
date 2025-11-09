@@ -99,6 +99,7 @@ public class UserInterface {
     public Fries createFries() {
         System.out.print("Fries size (small, medium, large): ");
         String size = scanner.nextLine();
+
         return new Fries(size);
     }
 
