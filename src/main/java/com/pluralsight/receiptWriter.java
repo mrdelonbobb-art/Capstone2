@@ -7,50 +7,63 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class receiptWriter {
-    public static void writeReceipt(Order order) {
+    private String filePath; // not static — instance variable
+
+    public receiptWriter(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public void writeReceipt(Order order) {
+        File file = new File(filePath);
+
         try {
-            //Create folder if missing
-            File folder = new File("receipts");
-            if (!folder.exists()) folder.mkdir();
+            // ✅ Create parent folder if it doesn't exist
+            File parentDir = file.getParentFile();
+            if (parentDir != null && !parentDir.exists()) {
+                parentDir.mkdirs();
+            }
 
-            // File name uses timestamp
-            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss"));
-            File file = new File(folder, "receipt-" + timestamp + ".csv");
+            boolean fileExists = file.exists();
 
-            // Write CSV content
-            try (FileWriter writer = new FileWriter(file)) {
-                // Write CSV header
-                writer.write("OrderID,Date,Item,Price\n");
+            // ✅ Append mode
+            try (FileWriter writer = new FileWriter(file, true)) {
+                // Write CSV header only once if new file
+                if (!fileExists) {
+                    writer.write("OrderID,Date,Item,Price\n");
+                }
 
-                // Date for file
-                String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                String date = LocalDateTime.now().format(
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                );
 
-                // Write sandwiches
+                // ✅ Write sandwiches
                 for (Sandwich s : order.getSandwiches()) {
-                    writer.write(order + "," + date + ",Sandwich - " +"," +
+                    writer.write(order.getId() + "," + date + ",Sandwich - " +
+                            s.getSummary().replace(",", " ") + "," +
                             String.format("%.2f", s.getTotalPrice()) + "\n");
                 }
 
-                // Write drinks
+                // ✅ Write drinks
                 for (Drink d : order.getDrinks()) {
-                    writer.write(order + "," + date + ",Drink - " +
+                    writer.write(order.getId() + "," + date + ",Drink - " +
                             d.getSize() + "," +
                             String.format("%.2f", d.getPrice()) + "\n");
                 }
 
-                // Write fries
+                // ✅ Write fries
                 for (Fries f : order.getFries()) {
-                    writer.write(order + "," + date + ",Fries - " +
+                    writer.write(order.getId() + "," + date + ",Fries - " +
                             f.getSize() + "," +
                             String.format("%.2f", f.getPrice()) + "\n");
                 }
 
-                // Write total
-                writer.write(order + "," + date + ",TOTAL," +
+                // ✅ Write total
+                writer.write(order.getId() + "," + date + ",TOTAL," +
                         String.format("%.2f", order.getTotal()) + "\n");
             }
 
-            System.out.println("✅ Receipt saved to CSV: " + file.getAbsolutePath());
+            System.out.println("✅ Transaction saved to CSV: " + file.getAbsolutePath());
+
         } catch (IOException e) {
             System.out.println("❌ Error writing receipt: " + e.getMessage());
         }

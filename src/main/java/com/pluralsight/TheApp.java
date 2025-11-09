@@ -8,6 +8,9 @@ public class TheApp {
         System.out.println("  YUUUUUR! Welcome to The Deli  ");
         System.out.println("====================================");
 
+        // Create a receipt writer instance once, pointing to CSV file
+        receiptWriter writer = new receiptWriter("receipts/receipt.csv");
+
         boolean running = true;
 
         while (running) {
@@ -20,29 +23,26 @@ public class TheApp {
 
             // Start a new order
             Order order = new Order();
-            boolean ordering = true; // creates loop
+            boolean ordering = true;
 
             while (ordering) {
                 int choice = ui.showOrderMenu();
 
                 switch (choice) {
                     case 1 -> {
-                        // Build a sandwich
                         Sandwich sandwich = ui.createSandwich();
                         order.addSandwich(sandwich);
                         System.out.println("Sandwich added!");
                     }
                     case 2 -> {
-                        // Add a drink
                         Drink drink = ui.createDrink();
                         order.addDrink(drink);
                         System.out.println("Drink added!");
                     }
                     case 3 -> {
-                        // Add fries
                         Fries fries = ui.createFries();
                         order.addFries(fries);
-                        System.out.println("Fries added!");
+                        System.out.println(" Fries added!");
                     }
                     case 4 -> {
                         // Checkout
@@ -50,29 +50,28 @@ public class TheApp {
                         System.out.println("           ORDER CHECKOUT           ");
                         System.out.println("====================================");
 
-                        // Print order summary
                         System.out.println(order.getSummary());
-                        System.out.printf("TOTAL DUE: $%.2f%n", order.getTotal()); //$%.2f%n  2 decimal places
+                        System.out.printf("TOTAL DUE: $%.2f%n", order.getTotal());
                         System.out.println("====================================");
 
-                        // Save receipt
-                        receiptWriter.writeReceipt(order);
+                        //  Save receipt to CSV using instance writer
+                        writer.writeReceipt(order);
 
-                        System.out.println("\nThank you for your order!");
-                        System.out.println("Your receipt has been saved.\n");
+                        System.out.println("\n Thank you for your order!");
+                        System.out.println("Your receipt has been saved to CSV.\n");
 
                         ordering = false;
                     }
-                    default -> System.out.println("Invalid choice, please try again.");
+                    default -> System.out.println(" Invalid choice, please try again.");
                 }
             }
 
-            // Ask if they want to place another order
-            System.out.print("\nWould you like to place another order? (yes/no): ");
+            // Ask if user wants another order
+            System.out.print("\nWould you like anything else? (yes/no): ");
             String again = ui.getScanner().nextLine();
             if (!again.equalsIgnoreCase("yes")) {
                 running = false;
-                System.out.println("Goodbye! Come again soon!");
+                System.out.println("Later! Come again soon!");
             }
         }
     }
