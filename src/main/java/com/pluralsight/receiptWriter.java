@@ -33,7 +33,7 @@ public class receiptWriter {
             }
 
             String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            int orderId = nextOrderId++;
+            int orderId = nextOrderId++;//add icriment on order id
 
             // Write sandwiches
             for (Sandwich s : order.getSandwiches()) {
