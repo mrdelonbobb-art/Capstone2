@@ -38,7 +38,7 @@ public class UserInterface {
         System.out.println("\n=== Add Toppings ===");
 
         // MEATS
-        System.out.print("Do you want meat? ⏸\uFE0F (yes/no): ");
+        System.out.print("Do you want meat on this sandwich? (yes/no): ");
         if (scanner.nextLine().equalsIgnoreCase("yes")) {
             while (true) {
                 System.out.println("Meat Available : steak, ham, salami, roast beef, chicken, bacon");
