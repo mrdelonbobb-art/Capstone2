@@ -91,33 +91,126 @@ public class UserInterface {
     }
 
     public Drink createDrink() {
-        System.out.print("Drink size (small, medium, large): ");
-        String size = scanner.nextLine();
-        return new Drink(size);
-    }
+        System.out.println("\n=== DRINK OPTIONS ===");
+        System.out.println("1) Soda");
+        System.out.println("2) Juice");
+        System.out.println("3) Natural Fruit Smoothie");
+        System.out.print("Choose your drink: ");
+        String choice = scanner.nextLine();
 
+        String type;
+        String size;
+
+
+        switch (choice) {
+            case "1" -> type = "soda";
+            case "2" -> type = "juice";
+            case "3" -> type = "smoothie";
+            default -> {
+                System.out.println("Invalid choice, defaulting to soda.");
+                type = "soda";
+            }
+        }
+
+        // Set size options
+        if (type.equals("smoothie")) {
+            System.out.println("Smoothie sizes: regular ($6) or large ($8)");
+            System.out.print("Enter size: ");
+            size = scanner.nextLine().trim().toLowerCase();
+            if (!size.equals("regular") && !size.equals("large")) {
+                System.out.println("Invalid size, defaulting to regular.");
+                size = "regular";
+            }
+        } else {
+            System.out.print("Choose size (small, medium, large): ");
+            size = scanner.nextLine().trim().toLowerCase();
+            if (!size.equals("small") && !size.equals("medium") && !size.equals("large")) {
+                System.out.println("Invalid size, defaulting to medium.");
+                size = "medium";
+            }
+        }
+
+        // Pick specific drink flavors
+        String flavor = "";
+
+        switch (type) {
+            case "soda" -> {
+                System.out.println("Available sodas: Sprite, Ginger Ale, Cream Soda, Coca-Cola, Pepsi, Seltzer Water");
+                System.out.print("Choose your soda: ");
+                flavor = scanner.nextLine().trim();
+            }
+
+            case "juice" -> {
+                System.out.println("Available juices: Apple, Orange, Cranberry, Pineapple");
+                System.out.print("Choose your juice: ");
+                flavor = scanner.nextLine().trim();
+            }
+
+            case "smoothie" -> {
+                System.out.println("Available fruits: Mango, Banana, Strawberry, Blueberry");
+                System.out.println("Type fruit names one at a time (type 'done' when finished):");
+                StringBuilder fruits = new StringBuilder();
+                while (true) {
+                    System.out.print("Fruit: ");
+                    String fruit = scanner.nextLine().trim().toLowerCase();
+                    if (fruit.equals("done")) break;
+                    if (!fruit.isEmpty()) {
+                        if (fruits.length() > 0) fruits.append(", ");
+                        fruits.append(fruit);
+                    }
+                }
+
+                System.out.println("Choose a juice base (apple, orange, cranberry, pineapple): ");
+                String base = scanner.nextLine().trim().toLowerCase();
+
+                flavor = fruits + " smoothie (base: " + base + ")";
+            }
+        }
+
+        Drink drink = new Drink(type, size, flavor);
+        System.out.println("Added: " + flavor + " - " + drink.getSummary());
+        return drink;
+    }
     public Fries createFries() {
-        System.out.print("Fries size (small, medium, large): ");
-        String size = scanner.nextLine();
+        System.out.println("\n=== FRIES MENU ===");
+        System.out.println("1) Regular Fries");
+        System.out.println("2) Sweet Potato Fries (+$1.00)");
+        System.out.print("Choose type: ");
+        String typeChoice = scanner.nextLine().trim();
 
-        return new Fries(size);
+        String type;
+        double extraCost = 0.0;
+
+        if (typeChoice.equals("2")) {
+            type = "sweet potato";
+            extraCost += 1.00;
+        } else {
+            type = "regular";
+        }
+
+        System.out.println("Choose fry style:");
+        System.out.println("1) Home Style");
+        System.out.println("2) Waffle Fries (+$0.50)");
+        System.out.print("Enter choice: ");
+        String styleChoice = scanner.nextLine().trim();
+
+        String style;
+        if (styleChoice.equals("2")) {
+            style = "waffle";
+            extraCost += 0.50;
+        } else {
+            style = "home style";
+        }
+
+        System.out.print("Choose size (small, medium, large): ");
+        String size = scanner.nextLine().trim().toLowerCase();
+
+        // Create fries with type, style, and base size
+        Fries fries = new Fries(size, type, style, extraCost);
+
+        System.out.println(" Added: " + fries.getSummary());
+        return fries;
     }
-
-    // Helpers to identify topping types
-    private boolean isMeat(String topping) {
-        String[] meats = {"steak", "ham", "salami", "roast beef", "chicken", "bacon"};
-        for (String meat : meats)
-            if (meat.equalsIgnoreCase(topping)) return true;
-        return false;
-    }
-
-    private boolean isCheese(String topping) {
-        String[] cheeses = {"american", "provolone", "cheddar", "swiss"};
-        for (String cheese : cheeses)
-            if (cheese.equalsIgnoreCase(topping)) return true;
-        return false;
-    }
-
     public Scanner getScanner() {
         return scanner;
     }
