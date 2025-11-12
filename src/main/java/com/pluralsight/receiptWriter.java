@@ -2,106 +2,132 @@ package com.pluralsight;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class receiptWriter {
-    private String filePath; // path to receipt.csv file
+
+    private static final String MASTER_FILE = "receipts/receipt.csv"; // master CSV
+    private static final String HEADER = "OrderID,Timestamp,Item,Details,Price";
+    private static int nextOrderId = 1; // simple incremental order ID
     private ArrayList<Order> orders = new ArrayList<>();
-    private static final String HEADER = "OrderID,Date,Item,Price";
-    private static int nextOrderId = 1;
-    private static final String NEWLINE = System.lineSeparator();
 
-    public receiptWriter(String filePath) {
-        this.filePath = filePath;
-        createFileIfMissing();
-        loadOrders();
-    }
-
-    private void createFileIfMissing() {
-        Path path = Path.of(filePath);
-        if (Files.exists(path)) return;
-
-        try {
-            File parent = path.toFile().getParentFile();
-            if (parent != null && !parent.exists()) parent.mkdirs();
-
-            try (BufferedWriter writer = Files.newBufferedWriter(Path.of(filePath), StandardOpenOption.APPEND))
-            {
-
-                writer.write(HEADER);
-                writer.write(NEWLINE);
-            }
-            System.out.println("✅ Created new receipt.csv file.");
-        } catch (IOException e) {
-            System.out.println("⚠️ Error creating CSV: " + e.getMessage());
-        }
-    }
-
-    private void loadOrders() {
-        try {
-            for (String line : Files.readAllLines(Path.of(filePath))) {
-                if (line.startsWith("OrderID") || line.isBlank()) continue;
-                nextOrderId++; // increment for each previous line
-            }
-        } catch (IOException e) {
-            System.out.println("⚠️ Error loading receipts: " + e.getMessage());
-        }
-    }
-
+    // Save order to master CSV (all orders in one file)
     public void saveOrder(Order order) {
         if (order == null) {
             System.out.println("⚠️ Cannot save: order is null.");
             return;
         }
 
-        try (BufferedWriter writer = Files.newBufferedWriter(Path.of(filePath), StandardOpenOption.APPEND)) {
-            String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        File folder = new File("receipts");
+        if (!folder.exists()) folder.mkdirs();
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(MASTER_FILE, true))) {
+            File file = new File(MASTER_FILE);
+            if (file.length() == 0) { // write header if file empty
+                writer.write(HEADER);
+                writer.newLine();
+            }
+
+            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             int orderId = nextOrderId++;
 
-            // Sandwiches
+            // Write sandwiches
             for (Sandwich s : order.getSandwiches()) {
-                writer.write(NEWLINE);
+                writer.write(orderId + "," + timestamp + ",Sandwich," +
+                        s.toString().replace(",", ";") + "," + String.format("%.2f", s.getTotalPrice()));
+                writer.newLine();
             }
 
-            // Drinks
+            // Write drinks
             for (Drink d : order.getDrinks()) {
-                writer.write(orderId + "," + date + ",Drink-" + d.getSize() + "," + String.format("%.2f", d.getPrice()));
-                writer.write(NEWLINE);
+                writer.write(orderId + "," + timestamp + ",Drink," +
+                        d.toString().replace(",", ";") + "," + String.format("%.2f", d.getPrice()));
+                writer.newLine();
             }
 
-            // Fries
+            // Write fries
             for (Fries f : order.getFries()) {
-                writer.write(orderId + "," + date + ",Fries-" + f.getSize() + "," + String.format("%.2f", f.getPrice()));
-                writer.write(NEWLINE);
+                writer.write(orderId + "," + timestamp + ",Fries," +
+                        f.toString().replace(",", ";") + "," + String.format("%.2f", f.getPrice()));
+                writer.newLine();
             }
 
-            // Total
-            writer.write(orderId + "," + date + ",TOTAL," + String.format("%.2f", order.getTotal()));
-            writer.write(NEWLINE);
+            // Write total
+            writer.write(orderId + "," + timestamp + ",TOTAL,," + String.format("%.2f", order.getTotal()));
+            writer.newLine();
 
             orders.add(order);
-            System.out.println("Order #" + orderId + " saved to " + filePath);
+            System.out.println("Order saved to master CSV: " + MASTER_FILE);
+
         } catch (IOException e) {
             System.out.println("Error saving order: " + e.getMessage());
         }
     }
 
-    public void displayOrders() {
-        if (orders.isEmpty()) {
-            System.out.println("No saved receipts yet.");
+    // Create a separate CSV file for a single order with timestamp
+    public void writeReceipt(Order order) {
+        if (order == null) {
+            System.out.println("⚠️ Cannot save: order is null.");
             return;
         }
-        System.out.println("Saved Receipts:");
-        for (Order o : orders) {
-            System.out.println(o.getSummary());
+
+        File folder = new File("receipts");
+        if (!folder.exists()) folder.mkdirs();
+
+        String timestampFile = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss"));
+        String filename = "receipts/receipt-" + timestampFile + ".csv";
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            writer.write("Timestamp,Item,Details,Price");
+            writer.newLine();
+
+            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+            // Write sandwiches
+            for (Sandwich s : order.getSandwiches()) {
+                writer.write(timestamp + ",Sandwich," +
+                        s.toString().replace(",", ";") + "," + String.format("%.2f", s.getTotalPrice()));
+                writer.newLine();
+            }
+
+            // Write drinks
+            for (Drink d : order.getDrinks()) {
+                writer.write(timestamp + ",Drink," +
+                        d.toString().replace(",", ";") + "," + String.format("%.2f", d.getPrice()));
+                writer.newLine();
+            }
+
+            // Write fries
+            for (Fries f : order.getFries()) {
+                writer.write(timestamp + ",Fries," +
+                        f.toString().replace(",", ";") + "," + String.format("%.2f", f.getPrice()));
+                writer.newLine();
+            }
+
+            // Write total
+            writer.write(timestamp + ",TOTAL,," + String.format("%.2f", order.getTotal()));
+            writer.newLine();
+
+            System.out.println("Receipt saved: " + filename);
+
+        } catch (IOException e) {
+            System.out.println("Error writing receipt: " + e.getMessage());
         }
     }
 
-    public void writeReceipt(Order order) {
-
+    // Optional: display saved orders
+    public void displayOrders() {
+        if (orders.isEmpty()) {
+            System.out.println("No saved orders.");
+            return;
+        }
+        System.out.println("Saved Orders:");
+        for (Order o : orders) {
+            System.out.println(o.getSummary());
+        }
     }
 }

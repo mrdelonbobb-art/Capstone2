@@ -3,7 +3,7 @@ package com.pluralsight;
 public class TheApp {
     public static void main(String[] args) {
         UserInterface ui = new UserInterface();
-        receiptWriter writer = new receiptWriter("receipts/receipt.csv");
+        receiptWriter writer = new receiptWriter();
         Order order = null;
         writer.saveOrder(order);
 
