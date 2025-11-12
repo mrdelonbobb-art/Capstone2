@@ -13,6 +13,7 @@ public class receiptWriter {
     private ArrayList<Order> orders = new ArrayList<>();
     private static final String HEADER = "OrderID,Date,Item,Price";
     private static int nextOrderId = 1;
+    private static final String NEWLINE = System.lineSeparator();
 
     public receiptWriter(String filePath) {
         this.filePath = filePath;
@@ -28,9 +29,11 @@ public class receiptWriter {
             File parent = path.toFile().getParentFile();
             if (parent != null && !parent.exists()) parent.mkdirs();
 
-            try (BufferedWriter writer = Files.newBufferedWriter(path)) {
+            try (BufferedWriter writer = Files.newBufferedWriter(Path.of(filePath), StandardOpenOption.APPEND))
+            {
+
                 writer.write(HEADER);
-                writer.newLine();
+                writer.write(NEWLINE);
             }
             System.out.println("✅ Created new receipt.csv file.");
         } catch (IOException e) {
@@ -61,30 +64,29 @@ public class receiptWriter {
 
             // Sandwiches
             for (Sandwich s : order.getSandwiches()) {
-                writer.write(orderId + "," + date + ",Sandwich," + String.format("%.2f", s.getTotalPrice()));
-                writer.newLine();
+                writer.write(NEWLINE);
             }
 
             // Drinks
             for (Drink d : order.getDrinks()) {
                 writer.write(orderId + "," + date + ",Drink-" + d.getSize() + "," + String.format("%.2f", d.getPrice()));
-                writer.newLine();
+                writer.write(NEWLINE);
             }
 
             // Fries
             for (Fries f : order.getFries()) {
                 writer.write(orderId + "," + date + ",Fries-" + f.getSize() + "," + String.format("%.2f", f.getPrice()));
-                writer.newLine();
+                writer.write(NEWLINE);
             }
 
             // Total
             writer.write(orderId + "," + date + ",TOTAL," + String.format("%.2f", order.getTotal()));
-            writer.newLine();
+            writer.write(NEWLINE);
 
             orders.add(order);
-            System.out.println("✅ Order #" + orderId + " saved to " + filePath);
+            System.out.println("Order #" + orderId + " saved to " + filePath);
         } catch (IOException e) {
-            System.out.println("⚠️ Error saving order: " + e.getMessage());
+            System.out.println("Error saving order: " + e.getMessage());
         }
     }
 

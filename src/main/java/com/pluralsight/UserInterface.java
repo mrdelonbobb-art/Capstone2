@@ -38,18 +38,18 @@ public class UserInterface {
         System.out.println("\n=== Add Toppings ===");
 
         // MEATS
-        System.out.print("Do you want meat? (yes/no): ");
+        System.out.print("Do you want meat? ⏸\uFE0F (yes/no): ");
         if (scanner.nextLine().equalsIgnoreCase("yes")) {
             while (true) {
-                System.out.println("Available meats: steak, ham, salami, roast beef, chicken, bacon");
-                System.out.print("Type meat name or 'no' to finish: ");
+                System.out.println("Meat Available : steak, ham, salami, roast beef, chicken, bacon");
+                System.out.print("Type meat name,then type 'done' when finished: ");
                 String meat = scanner.nextLine().trim().toLowerCase();
-                if (meat.equals("no")) break;
+                if (meat.equals("done")) break;
 
-                System.out.print("Extra meat? (yes/no): ");
+                System.out.print("Extra meat? ⏸\uFE0F (yes/no): ");
                 boolean extra = scanner.nextLine().equalsIgnoreCase("yes");
-
                 sandwich.addTopping(new Topping(meat, extra));
+                if(!extra) break; //breaks loop from asking again
             }
         }
 
@@ -58,14 +58,14 @@ public class UserInterface {
         if (scanner.nextLine().equalsIgnoreCase("yes")) {
             while (true) {
                 System.out.println("Available cheeses: american, provolone, cheddar, swiss");
-                System.out.print("Type cheese name or 'no' to finish: ");
+                System.out.print("Type cheese name, then type 'done' when finished: ");
                 String cheese = scanner.nextLine().trim().toLowerCase();
-                if (cheese.equals("no")) break;
+                if (cheese.equals("done")) break;
 
                 System.out.print("Extra cheese? (yes/no): ");
                 boolean extra = scanner.nextLine().equalsIgnoreCase("yes");
-
-                sandwich.addTopping(new Topping(cheese, extra));
+                 sandwich.addTopping(new Topping(cheese, extra));
+                if(!extra) break;  //added to break loop of asking for cheese after saying no
             }
         }
 
@@ -74,16 +74,16 @@ public class UserInterface {
         while (true) {
             System.out.print("Topping: ");
             String topping = scanner.nextLine().trim().toLowerCase();
-            if (topping.equals("no")) break;
+            if (topping.equals("done")) break;
             sandwich.addTopping(new Topping(topping, false));
         }
 
         // SAUCES
-        System.out.println("\nAdd sauces (mayo, mustard, ketchup, ranch, bbq, jerk, vinaigrette). Type 'no' to finish.");
+        System.out.println("\nAdd sauces (mayo, mustard, ketchup, ranch, bbq, jerk, vinaigrette). Type 'done' to finish.");
         while (true) {
             System.out.print("Sauce: ");
             String sauce = scanner.nextLine().trim().toLowerCase();
-            if (sauce.equals("no")) break;
+            if (sauce.equals("done")) break;
             sandwich.addTopping(new Topping(sauce, false));
         }
 
