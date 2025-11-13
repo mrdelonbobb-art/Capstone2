@@ -86,7 +86,7 @@ public class UserInterface {
             if (sauce.equals("done")) break;
             sandwich.addTopping(new Topping(sauce, false));
         }
-
+        System.out.println("Sandwich added the OKY WAY");
         return sandwich;
     }
 
