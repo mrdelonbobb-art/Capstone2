@@ -41,7 +41,7 @@ public class UserInterface {
         System.out.print("Do you want meat on this sandwich? (yes/no): ");
         if (scanner.nextLine().equalsIgnoreCase("yes")) {
             while (true) {
-                System.out.println("Meat Available : steak, ham, salami, roast beef, chicken, bacon");
+                System.out.println("Meat Available : steak, ham, salami, roast beef, chicken, bacon,eggs");
                 System.out.print("Type meat name,then type 'done' when finished: ");
                 String meat = scanner.nextLine().trim().toLowerCase();
                 if (meat.equals("done")) break;

@@ -47,7 +47,7 @@ public class Sandwich {
     }
 
     private boolean isMeat(String topping) {
-        String[] meats = {"steak", "ham", "salami", "roast beef", "chicken", "bacon"};
+        String[] meats = {"steak", "ham", "salami", "roast beef", "chicken", "bacon","eggs"};
         for (String m : meats) if (m.equals(topping)) return true;
         return false;
     }

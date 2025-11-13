@@ -8,7 +8,7 @@ public class Topping {
     private boolean isExtra;
 
     // Define topping categories
-    private static final List<String> MEATS = Arrays.asList("steak", "ham", "salami", "roast beef", "chicken", "bacon");
+    private static final List<String> MEATS = Arrays.asList("steak", "ham", "salami", "roast beef", "chicken", "bacon","eggs");
     private static final List<String> CHEESES = Arrays.asList("american", "provolone", "cheddar", "swiss");
     private static final List<String> REGULAR_TOPPINGS = Arrays.asList("lettuce", "peppers", "onions", "tomatoes", "jalapeños", "cucumbers", "pickles", "guacamole", "mushrooms");
     private static final List<String> SAUCES = Arrays.asList("mayo", "mustard", "ketchup", "ranch", "bbq", "jerk", "vinaigrette");
