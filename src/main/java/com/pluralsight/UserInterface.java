@@ -160,7 +160,7 @@ public class UserInterface {
                     }
                 }
 
-                System.out.println("Choose a juice base (apple, orange, cranberry, pineapple): ");
+                System.out.println("Choose a base (name of juice,type of milk, or water/ice): ");
                 String base = scanner.nextLine().trim().toLowerCase();
 
                 flavor = fruits + " smoothie (base: " + base + ")";
